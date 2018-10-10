@@ -17,4 +17,4 @@
   roles:
     -  mysqld
     #- { role: mysqld, mysql_bind: "{{ ansible_eth1 ["ipv4"] ["address"] }}" }
-    # This is a commit test
+    
