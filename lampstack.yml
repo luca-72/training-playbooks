@@ -1,0 +1,28 @@
+---
+- hosts: LampStack
+  name: install apache & php & mysql
+  become: true
+  become_user: root
+  gather_facts: true
+  tasks:
+        - name: "Install apache2"
+          package: name=httpd state=latest
+        - name: "Ensure Apache is running"
+          service: name=httpd state=started enabled=yes
+        - firewalld: service=http permanent=true state=enabled immediate=yes
+        - name: "Install PHP"
+          package: name=php state=latest
+        - name: "Install php-mysql"
+          package: name=php-mysql state=latest
+        - name: "Install php-cli"
+          package: name=php-cli state=present
+        #- name: "Install php-mcrypt"
+        #  package: name=php-mcrypt state=present
+        - name: "Install php-gd"
+          package: name=php-gd state=present
+        - name: "Install mysqlserver"
+          package: name=mariadb-server state=present
+        - name: "Install mysqlserver"
+          package: name=mariadb state=present
+        - name: "Ensure mariadb is running"
+          service: name=mariadb state=started enabled=yes
