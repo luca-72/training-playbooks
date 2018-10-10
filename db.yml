@@ -1,0 +1,19 @@
+---
+
+#playbook for database servers
+- hosts: db
+  remote_user: vagrant
+  become: yes
+  become_user: root
+  # pre_tasks:
+  #   - name: Configure MYSQL repository
+  #     yum_repository:
+  #       name: mysql80
+  #       description: mysql80
+  #       baseurl: https://repo.mysql.com/mysql80-community-release-el7-1.noarch.rpm
+  #       gpgkey: "/etc/pki/rpm-gpg/RPM-GPG-KEY-mysql, /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7"
+  #       gpgcheck: true
+  #       state: present
+  roles:
+    -  mysqld
+    #- { role: mysqld, mysql_bind: "{{ ansible_eth1 ["ipv4"] ["address"] }}" }

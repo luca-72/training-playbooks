@@ -1,0 +1,6 @@
+---
+# site.yml : This is a sitewide playbooks
+- import_playbook: epel-repo.yml
+- import_playbook: mysql-repo.yml
+- import_playbook: ngnx.yml
+- import_playbook: db.yml

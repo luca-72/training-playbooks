@@ -1,0 +1,60 @@
+---
+- hosts: DevOps
+  remote_user: vagrant
+  become: true
+  become_user: root
+
+  tasks:
+
+    - name: "Upgrade all packages to the latest version"
+      apt: >
+       update_cache=yes
+       cache_valid_time=1200
+       upgrade=dist
+      when: >
+        ansible_distribution == 'Ubuntu'
+    - name: "ensure nginx is at the latest version"
+      apt: name=nginx state=latest
+      become: yes
+    - name: "start nginx"
+      service:
+          name: nginx
+          state: started
+      become: yes
+    - name: "copy the nginx config file and restart nginx"
+      copy:
+        src: /Users/wmendoza/Ansible/playbooks/DevOps/static_site.cfg
+        dest: /etc/nginx/sites-available/static_site.cfg
+      become: yes
+    - name: "Remove the nginx default file"
+      shell: rm /etc/nginx/sites-enabled/default
+      args:
+        chdir: /etc/nginx/sites-enabled/
+      become: yes
+    - name: "copy the sites-enabled directory"
+      copy:
+        src: /Users/wmendoza/Ansible/playbooks/DevOps/sites-enabled/
+        dest: /etc/nginx/sites-enabled
+      become: yes
+    - name: "create symlink"
+      file:
+        src: /etc/nginx/sites-available/static_site.cfg
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+        force: yes
+      become: yes
+    - name: "copy the content of the web site"
+      copy:
+        src: /Users/wmendoza/Ansible/playbooks/DevOps/static-site/
+        dest: /var/www/html/static-site
+    - name: "restart nginx"
+      service:
+         name: nginx
+         state: stopped
+      become: yes
+    - name: "restart nginx"
+      service:
+         name: nginx
+         state: started
+      become: yes
+  ignore_errors: yes
