@@ -26,3 +26,4 @@
           package: name=mariadb state=present
         - name: "Ensure mariadb is running"
           service: name=mariadb state=started enabled=yes
+# This is a test configuring my fedora workstation atom to github
