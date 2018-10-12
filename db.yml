@@ -15,6 +15,5 @@
   #       gpgcheck: true
   #       state: present
   roles:
-    -  mysqld
+    -  mysql
     #- { role: mysqld, mysql_bind: "{{ ansible_eth1 ["ipv4"] ["address"] }}" }
-    
