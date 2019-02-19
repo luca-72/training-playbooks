@@ -10,7 +10,7 @@
 
       - name: "Check all port numbers for current host"
         wait_for:
-#          host: {{ add hostname }}   # Add hostname and delete braces
+#          host: {{ [add hostgroup] }}   # Add hostgroup from the hosts file and delete braces
           port: "{{ item }}"
           state: started   # Port should be open
           delay: 0
