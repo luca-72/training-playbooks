@@ -51,7 +51,7 @@
              state: running
          
 
-             # Ensure Firewall service is stopped/disabled    
+            # Ensure Firewall service is stopped/disabled    
         - name: Ensure Firewall service is stopped/disabled
           win_service:
              name: MpsSvc
