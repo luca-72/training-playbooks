@@ -1,0 +1,30 @@
+---
+- hosts: winserver
+
+
+  tasks:
+        
+      
+      - name: Install Updates
+        win_updates:
+            category_names: 
+             - CriticalUpdates
+             - SecurityUpdates
+             - UpdateRollups
+            reboot: yes
+
+
+            #- name: Reboot after Updates if Required
+            #win_reboot:
+            #when: update_result.reboot_required
+
+      - name: Ensure Host is Back Up
+        wait_for_connection:
+
+      - name: Ping Host
+        win_ping:
+
+         
+  ignore_errors: yes    
+
+...

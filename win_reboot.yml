@@ -1,0 +1,21 @@
+---
+- hosts: winserver
+
+
+  tasks:
+        
+      
+
+            # name: Reboot System 
+              -  win_reboot:
+
+            #name: Ensure Host is Back Up
+              -  wait_for_connection:
+
+            #name: Ping Host
+              -  win_ping:
+
+         
+  ignore_errors: yes    
+
+...

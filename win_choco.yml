@@ -1,0 +1,63 @@
+---
+- hosts: winserver
+
+
+  tasks:
+        - name: Install Chocolatey
+          win_chocolatey:
+            name: procexp
+            state: present
+
+
+
+        - name: Install Updates
+          win_updates:
+            category_names: CriticalUpdates
+            reboot: yes
+            blacklist:
+                - KB4056892
+
+            register: update_result      
+            #- win_reboot:
+            #when: update_result.reboot_required
+
+            #- wait_for_connection:
+
+        - name: Acme IIS Website
+          win_iis_website:
+             name: Acme
+             state: started
+             port: 80
+             ip: 127.0.0.1
+             hostname: bnawmwdm701.corp.local
+             application_pool: acme
+             physical_path: C:\sites\acme
+             parameters: logfile.directory:C:\sites\logs
+          register: website
+
+
+
+        - win_iis_webapppool:
+             site: Default Web Site
+             name: OrchardCMS
+             state: started
+             physical_path: C:\Inetpub\WWWRoot\Orchard
+         
+
+             # Ensure IIS is runnig
+        - name: Ensure IIS is running
+          win_service:
+             name: W3Svc
+             state: running
+         
+
+             # Ensure Firewall service is stopped/disabled    
+        - name: Ensure Firewall service is stopped/disabled
+          win_service:
+             name: MpsSvc
+             state: stopped
+             start_mode: disabled
+         
+  ignore_errors: yes    
+
+...
